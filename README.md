@@ -88,3 +88,4 @@ void loop() {
 
 - Higher values generally mean the sensor is seeing a more reflective surface (white), lower values mean a darker, less reflective surface (black), but always calibrate against your own track and lighting before relying on a fixed threshold.
 - Do not use `analogRead()` on A0 to A4 for these sensors, they are not connected to the Arduino's own ADC at all, only to the TLC1543.
+My name is Raj
