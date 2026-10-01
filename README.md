@@ -1,90 +1,75 @@
-# Apex Institute of Science & Technology (AIST) - College Web Portal
+# Adani University (AU) - Official College Web Portal
 
-A modern, responsive, high-performance college website built with semantic HTML5, CSS3 custom properties, and vanilla JavaScript. Features a straightforward institutional introduction and an interactive College Dashboard.
-
----
-
-## 🌟 Key Features
-
-### 1. Straightforward College Introduction
-- **Institutional Identity & Stature**: Established 1988, NAAC A++ (CGPA 3.84), NBA Tier-1 accredited, and NIRF Top 20 ranking badges.
-- **Concise, Direct Overview**: Clear institutional mission, academic philosophy, and research impact without marketing clutter.
-- **Key Metric Counters**: Real-time counter strip highlighting 9,800+ scholars, 430+ faculty (88% Ph.D), 98.4% placement record, and ₹54.2 LPA highest package.
-- **Core Pillars Matrix**: Direct breakdown of Curriculum & Pedagogy, Research & Innovation, and Campus & Student Life.
-
-### 2. Interactive College Dashboard
-A unified multi-tab dashboard providing instant access to:
-
-1. **🎓 Admission & Intake Information**:
-   - Live seat matrix with progress visualizers (Total seats, seats filled, remaining vacancies).
-   - Quota breakdown (Merit, Entrance Exam CET/JEE, Sports/NRI).
-   - Program filter by degree level (Undergraduate B.Tech, Postgraduate M.Tech & MBA).
-   - Search bar across courses and specializations.
-   - Annual tuition fees and eligibility requirements.
-   - Step-by-step admission procedure flowchart.
-   - Interactive **Apply Online** modal with instant application receipt generation (`AIST-XXXXXX`).
-
-2. **👨‍🏫 Distinguished Faculty Directory**:
-   - Filter by department (CSE, AI & Data Science, ECE, Mechanical, Biotechnology, Management).
-   - Live search by professor name, research domain, or degree.
-   - Detailed faculty cards with experience, published papers count, and patents.
-   - Interactive **View Full Profile** modal with education, biography, courses taught, and direct email link.
-
-3. **🏛️ Campus Insights & Infrastructure**:
-   - Category filtering: Academic & Labs, Residential Hostels, Auditoriums, Startup Incubator, Health & Wellness.
-   - Deep-dive specs (Central Digital Library with 350k volumes, NVIDIA GPU Supercluster, 4,200-bed hostels, Apollo-partnered medical hospital).
-   - Interactive **Facility Specs** modal with location, operational timings, and amenities.
-
-4. **⚽ Sports Facility & Athletics**:
-   - 18-acre sports arena overview with Athletics Director credentials and recent championship achievements.
-   - Detailed facilities: FIFA-standard floodlit football stadium, Olympic 50m swimming complex, Sir Vivian Richards cricket arena & automated nets, indoor wooden badminton & squash courts, high-performance gymnasium, basketball & Decoturf tennis courts.
-   - Interactive **Book Court / Slot** modal simulator that generates a verified Court Reservation Pass (`SPORT-XXXX`).
-
-5. **💼 Placements & Career Hub ("etc.")**:
-   - Key statistics (₹54.20 LPA highest package, ₹12.60 LPA average CTC, 98.4% placement rate, 1,420+ offers).
-   - Recruiting partners grid (Google, Microsoft, Amazon, NVIDIA, Qualcomm, Bosch, Deloitte, Goldman Sachs).
-
-6. **📢 Official Notices & Academic Circulars ("etc.")**:
-   - Real-time notice bulletin with category tags, urgency indicators, and PDF download triggers.
-
-### 3. Modern UX & Accessibility
-- **Light & Dark Theme Toggle**: Easily switch between crisp academic light mode and sleek dark theme (persisted in `localStorage`).
-- **Responsive Layout**: Designed for seamless viewing across smartphones, tablets, and wide desktop screens.
-- **Zero External Dependencies**: Works completely offline without needing Node, npm, or Python. All icons are embedded SVGs.
+A premier, modern, responsive academic web portal for **Adani University (Shantigram, Ahmedabad)**, built with semantic HTML5, modern CSS3 variables, and vanilla JavaScript. Features the iconic Adani signature color palette (**Blue `#0B74B0`**, **Purple `#75479C`**, and **Pink/Magenta `#BD3861`**), subtle animations, an ambient moving campus video showcase, a term-wise **Top Rankers** honor roll, and a built-in **CGPA / SGPA Calculator** in the dashboard.
 
 ---
 
-## 📂 File Structure
+## 🌟 What's New in this Update
+
+### 1. 🏛️ Rebranded to "Adani University"
+- **Location**: Adani Shantigram, S.G. Highway, Ahmedabad - 382421, Gujarat.
+- **Accreditation**: NAAC A+ Accredited State Private University, UGC Recognized, AICTE Approved, NIRF Top Ranked.
+- **Core Focus**: Computer Science & Artificial Intelligence, Civil & Mega-Infrastructure Engineering, Energy Science & Renewable Systems, and Management Sciences.
+
+### 2. 🎨 Adani Signature Color Palette
+- **Primary Blue**: `#0B74B0`
+- **Secondary Purple**: `#75479C`
+- **Accent Pink / Magenta**: `#BD3861`
+- **Dynamic Gradients**: Smooth 3-stop Adani linear gradients applied across navigation bars, buttons, ranker ribbons, and radial score dials.
+
+### 3. 🥇 Top Rankers in Each Term (Dean's Honor Roll)
+- **Term-by-Term Filtering**: Instant tab/pill switching between **Term 1 (Sem I)** to **Term 6 (Sem VI)**.
+- **Podium Ranker Cards**:
+  - **Rank 1 • Gold Medalist** 🥇 (e.g. 9.98 CGPA, Chancellor's Gold Medal, 100% Scholarship)
+  - **Rank 2 • Silver Medalist** 🥈
+  - **Rank 3 • Bronze Medalist** 🥉
+- **Student Details**: Real student avatars, roll numbers, departments, completed credits, student testimonials, and honors awards.
+
+### 4. 🧮 Interactive CGPA & SGPA Calculator (Dashboard Option)
+- Built directly into the **College Dashboard**.
+- **Two Flexible Calculation Modes**:
+  1. **Semester SGPA Mode**: Add courses, set credit hours (1-6), and select letter grades (O = 10, A+ = 9, A = 8, B+ = 7, B = 6, C = 5, P = 4, F = 0).
+  2. **Cumulative CGPA Mode**: Enter completed term credits and term GPAs to calculate cumulative CGPA.
+- **Live Radial Meter & Scorecard**:
+  - Instant radial animation of calculated SGPA / CGPA.
+  - Total credit points ($\Sigma \text{CP}$) and total credits.
+  - Equivalent percentage conversion formula (`CGPA × 9.5`).
+  - University Classification badge (e.g. *First Class with Distinction (Honors)*).
+
+### 5. 🎥 Moving Video Showcase & Ambient Animations
+- **Moving Campus Video**: High-definition looping video showcase in the Hero section capturing real student life, walking quadrangles, and lecture halls.
+- **Interactive Controls**: Ambient live indicator dot and audio mute/unmute toggle.
+- **Subtle Image Animations**:
+  - Floating keyframe animations (`@keyframes subtleFloat`) on ranker cards and avatars.
+  - Ambient pulse glow (`@keyframes pulseGlow`) with Adani blue and magenta illumination.
+  - Smooth scale transitions on campus facility cards.
+
+---
+
+## 🗂️ Project Structure
 
 ```text
 AntiGravity_1/
-├── index.html       # Semantic HTML5 layout, hero introduction, dashboard sections & modals
-├── styles.css       # Master stylesheet (CSS variables, responsive grid/flexbox, glassmorphism, themes)
-├── app.js           # Interactive UI logic (tabs, filters, search, modal controllers, form handling)
-├── data.js          # Centralized data store (programs, faculty, campus insights, sports, placements)
-└── README.md        # Documentation and customization guide
+├── index.html       # Semantic HTML5 layout, hero section with video, dashboard tabs & modals
+├── styles.css       # Stylesheet with Adani Blue, Purple & Magenta variables, animations & responsive grid
+├── app.js           # Dynamic JavaScript logic (Top Rankers term filter, CGPA calculator, video controls)
+├── data.js          # Central store (Adani University info, terms rankers, admissions, faculty, sports)
+└── README.md        # Documentation and feature guide
 ```
 
 ---
 
-## 🚀 How to Run
+## 🚀 How to Open and Test
 
-1. Open the project folder:
+1. Open the project folder on your computer:
    ```
    c:\Users\rajth\OneDrive\Desktop\AntiGravity_1
    ```
-2. Simply double-click **`index.html`** to open it in your web browser (Google Chrome, Microsoft Edge, Firefox, Brave, Safari, etc.).
-3. Alternatively, launch it via PowerShell:
+2. Double-click **`index.html`** or launch via PowerShell:
    ```powershell
    Start-Process "index.html"
    ```
-
----
-
-## 🛠️ How to Customize
-
-- **Add or edit programs / courses**: Open `data.js` and edit the `admissions.programs` array.
-- **Add or edit faculty members**: Open `data.js` and modify `faculties`.
-- **Add campus facilities**: Open `data.js` and update `campusInsights`.
-- **Add sports grounds or equipment**: Open `data.js` and edit `sports.facilities`.
-- **Update branding / colors**: Open `styles.css` and adjust `:root` variables (`--primary`, `--accent`, `--bg-main`, etc.).
+3. Test the new features:
+   - Click on **"Top Rankers (Terms)"** in the dashboard sidebar or header to switch through Terms 1 to 6.
+   - Click on **"CGPA / SGPA Calculator"** in the dashboard to add courses, tweak grades, and watch your live GPA calculate in real-time.
+   - Toggle audio on the campus video in the hero section.

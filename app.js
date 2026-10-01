@@ -1,10 +1,11 @@
 // ===================================================================
-// Apex Institute of Science & Technology - Main Application Logic
-// Powers Dashboard navigation, filtering, search, and interactive modals
+// Adani University - Interactive Logic
+// Theme: Blue (#0B74B0), Purple (#75479C), Magenta (#BD3861)
+// Handles: Dashboard navigation, Top Rankers, CGPA Calculator,
+//          Video controls, live search/filtering, and modal dialogs.
 // ===================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Check if CollegeData is loaded
   if (!window.CollegeData) {
     console.error("CollegeData is not loaded. Ensure data.js is included before app.js.");
     return;
@@ -12,9 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const data = window.CollegeData;
 
-  // Global State
+  // Global Application State
   const state = {
-    currentTab: 'admissions',
+    currentTab: 'admissions', // Default active dashboard tab is Admissions & Intake
+    activeRankerTerm: 'term-1',
     admissionDegreeFilter: 'all',
     admissionSearchQuery: '',
     facultyDeptFilter: 'all',
@@ -23,12 +25,27 @@ document.addEventListener('DOMContentLoaded', () => {
     campusSearchQuery: '',
     sportsTypeFilter: 'all',
     sportsSearchQuery: '',
-    isDarkTheme: localStorage.getItem('aist_theme') === 'dark'
+    isDarkTheme: localStorage.getItem('aist_theme') === 'dark',
+    calcMode: 'sgpa' // 'sgpa' or 'cgpa'
   };
 
-  // Initialize UI components
+  // Grade point mapping standard
+  const GRADE_POINTS = {
+    'O': 10,
+    'A+': 9,
+    'A': 8,
+    'B+': 7,
+    'B': 6,
+    'C': 5,
+    'P': 4,
+    'F': 0
+  };
+
+  // Initialize all modules
   initTheme();
   initDashboardTabs();
+  renderTopRankers(state.activeRankerTerm);
+  initCgpaCalculator();
   renderAdmissions();
   renderFaculties();
   renderCampusInsights();
@@ -37,10 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
   renderNotices();
   initModals();
   initMobileNav();
+  initVideoPlayer();
   setupEventListeners();
 
   // =================================================================
-  // Theme Management (Dark / Light Mode)
+  // 1. Theme Toggle (Dark / Light Mode)
   // =================================================================
   function initTheme() {
     const themeBtn = document.getElementById('themeToggleBtn');
@@ -71,11 +89,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =================================================================
-  // Dashboard Tabs Controller
+  // 2. Video Player Ambient Controls
+  // =================================================================
+  function initVideoPlayer() {
+    const video = document.getElementById('campusMovingVideo');
+    const audioBtn = document.getElementById('videoAudioToggle');
+    if (!video || !audioBtn) return;
+
+    audioBtn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      if (video.muted) {
+        audioBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`;
+        audioBtn.title = "Unmute video";
+      } else {
+        audioBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
+        audioBtn.title = "Mute video";
+      }
+    });
+  }
+
+  // =================================================================
+  // 3. Dashboard Navigation & Header Sync
   // =================================================================
   function initDashboardTabs() {
     const tabButtons = document.querySelectorAll('.dash-tab-btn');
-    const panels = document.querySelectorAll('.dashboard-panel');
 
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -84,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Handle deep-link jump from top nav or external anchor
     document.querySelectorAll('[data-jump-tab]').forEach(el => {
       el.addEventListener('click', (e) => {
         const tab = el.getAttribute('data-jump-tab');
@@ -97,32 +133,299 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+
+    // Handle Introduction nav link click
+    const introLink = document.querySelector('a[href="#intro"]');
+    if (introLink) {
+      introLink.addEventListener('click', () => {
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        introLink.classList.add('active');
+      });
+    }
+
+    // Scroll spy: if user scrolls back to top/intro, activate Intro link and deactivate dashboard links
+    window.addEventListener('scroll', () => {
+      const dashSection = document.getElementById('dashboard');
+      if (!dashSection) return;
+      const rect = dashSection.getBoundingClientRect();
+      const introNav = document.querySelector('a[href="#intro"]');
+
+      if (rect.top > 250) {
+        // User is viewing the Introduction / Hero section
+        document.querySelectorAll('.nav-link').forEach(l => {
+          if (l.getAttribute('href') === '#intro') {
+            l.classList.add('active');
+          } else {
+            l.classList.remove('active');
+          }
+        });
+      } else if (rect.top <= 250 && rect.bottom > 100) {
+        // User is inside the Dashboard section
+        if (introNav) introNav.classList.remove('active');
+        document.querySelectorAll('.nav-link[data-jump-tab]').forEach(l => {
+          l.classList.toggle('active', l.getAttribute('data-jump-tab') === state.currentTab);
+        });
+      }
+    }, { passive: true });
   }
 
   function switchDashboardTab(tabId) {
     state.currentTab = tabId;
 
-    // Update Tab Buttons
+    // 1. Update Dashboard Sidebar Buttons
     document.querySelectorAll('.dash-tab-btn').forEach(b => {
-      if (b.getAttribute('data-tab') === tabId) {
-        b.classList.add('active');
-      } else {
-        b.classList.remove('active');
-      }
+      const isActive = b.getAttribute('data-tab') === tabId;
+      b.classList.toggle('active', isActive);
+      b.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
 
-    // Update Panels
+    // 2. Update Dashboard Content Panels
     document.querySelectorAll('.dashboard-panel').forEach(p => {
-      if (p.id === `panel-${tabId}`) {
-        p.classList.add('active');
+      p.classList.toggle('active', p.id === `panel-${tabId}`);
+    });
+
+    // 3. Update Header Navigation Links: highlight ONLY the selected tab!
+    document.querySelectorAll('.nav-link').forEach(link => {
+      const jumpTab = link.getAttribute('data-jump-tab');
+      if (jumpTab) {
+        link.classList.toggle('active', jumpTab === tabId);
       } else {
-        p.classList.remove('active');
+        link.classList.remove('active');
       }
     });
   }
 
   // =================================================================
-  // 1. Admission & Intake Rendering and Filtering
+  // 4. TOP RANKERS IN EACH TERM / SEMESTER (New Requirement)
+  // =================================================================
+  function renderTopRankers(termId = 'term-1') {
+    state.activeRankerTerm = termId;
+    const container = document.getElementById('rankersGrid');
+    const termTitleDisplay = document.getElementById('rankersTermHeading');
+    if (!container) return;
+
+    const termObj = data.topRankers.terms.find(t => t.id === termId);
+    if (termTitleDisplay && termObj) {
+      termTitleDisplay.textContent = `Dean's Honor Roll - ${termObj.name}`;
+    }
+
+    const rankersList = data.topRankers.rankers.filter(r => r.termId === termId);
+
+    if (rankersList.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align:center; padding:3rem 1rem; color:var(--text-muted);">
+          <p style="font-weight:700;">Rank list for this term will be published after the academic board council meeting.</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = rankersList.map(r => {
+      let medalLabel = "Rank 1 • Gold Medalist";
+      let medalIcon = "🥇";
+      if (r.rank === 2) {
+        medalLabel = "Rank 2 • Silver Medalist";
+        medalIcon = "🥈";
+      } else if (r.rank === 3) {
+        medalLabel = "Rank 3 • Bronze Medalist";
+        medalIcon = "🥉";
+      }
+
+      return `
+        <div class="ranker-card rank-${r.rank} animate-float" style="animation-delay: ${(r.rank - 1) * 0.4}s;">
+          <div class="ranker-card-header">
+            <span class="ranker-medal-badge">
+              <span>${medalIcon}</span>
+              <span>${medalLabel}</span>
+            </span>
+            <div class="ranker-avatar-wrap">
+              <img src="${r.avatar}" alt="${r.name}" class="ranker-avatar" loading="lazy">
+            </div>
+          </div>
+
+          <div class="ranker-card-body">
+            <h4 class="ranker-name">${r.name}</h4>
+            <div class="ranker-roll">${r.rollNo}</div>
+            <div class="ranker-dept">${r.department}</div>
+
+            <div class="ranker-score-row">
+              <div class="cgpa-display-box">
+                <span class="cgpa-score-val">${r.cgpa}</span>
+                <span class="cgpa-score-lbl">Term CGPA</span>
+              </div>
+              <div class="ranker-credits-val">
+                <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Credits Completed</div>
+                <div>${r.credits}</div>
+              </div>
+            </div>
+
+            <div class="ranker-award-tag">
+              🏆 ${r.award}
+            </div>
+
+            <p class="ranker-quote">
+              "${r.quote}"
+            </p>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // =================================================================
+  // 5. CGPA & SGPA CALCULATOR (New Requirement)
+  // =================================================================
+  function initCgpaCalculator() {
+    const container = document.getElementById('subjectRowsContainer');
+    const addSubjectBtn = document.getElementById('btnAddSubject');
+    const calcExecuteBtn = document.getElementById('btnCalcExecute');
+    const calcResetBtn = document.getElementById('btnCalcReset');
+    const modeSgpaBtn = document.getElementById('modeSgpaBtn');
+    const modeCgpaBtn = document.getElementById('modeCgpaBtn');
+
+    if (!container) return;
+
+    // Initial default subjects
+    const defaultSubjects = [
+      { name: "Artificial Intelligence & Algorithms", credits: 4, grade: "O" },
+      { name: "Distributed Cloud Infrastructure", credits: 4, grade: "A+" },
+      { name: "Renewable Energy & Smart Grids", credits: 3, grade: "O" },
+      { name: "Infrastructure Modeling Lab", credits: 3, grade: "A" },
+      { name: "Engineering Design Project", credits: 2, grade: "A+" }
+    ];
+
+    function renderSubjectRows(subjects) {
+      container.innerHTML = subjects.map((s, idx) => createSubjectRowHTML(s.name, s.credits, s.grade, idx)).join('');
+      attachRowEvents();
+      calculateSGPA();
+    }
+
+    function createSubjectRowHTML(name = '', credits = 3, selectedGrade = 'O', index = 0) {
+      const gradeOptions = Object.keys(GRADE_POINTS).map(g => `
+        <option value="${g}" ${g === selectedGrade ? 'selected' : ''}>${g} (${GRADE_POINTS[g]} pts)</option>
+      `).join('');
+
+      return `
+        <div class="subject-row" data-row-id="${index}">
+          <input type="text" class="form-control sub-name-input" placeholder="Subject Name" value="${name}">
+          <input type="number" class="form-control sub-credits-input" min="1" max="6" value="${credits}">
+          <select class="form-control sub-grade-select">
+            ${gradeOptions}
+          </select>
+          <button type="button" class="btn-remove-row" title="Remove Subject" aria-label="Remove Subject">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      `;
+    }
+
+    function attachRowEvents() {
+      container.querySelectorAll('.btn-remove-row').forEach(btn => {
+        btn.onclick = () => {
+          if (container.querySelectorAll('.subject-row').length <= 1) {
+            alert("At least one subject is required to compute SGPA.");
+            return;
+          }
+          btn.closest('.subject-row').remove();
+          calculateSGPA();
+        };
+      });
+
+      container.querySelectorAll('.sub-credits-input, .sub-grade-select').forEach(input => {
+        input.onchange = calculateSGPA;
+        input.oninput = calculateSGPA;
+      });
+    }
+
+    if (addSubjectBtn) {
+      addSubjectBtn.addEventListener('click', () => {
+        const rowCount = container.querySelectorAll('.subject-row').length;
+        const newRowHTML = createSubjectRowHTML(`Elective Subject ${rowCount + 1}`, 3, 'A+', rowCount);
+        container.insertAdjacentHTML('beforeend', newRowHTML);
+        attachRowEvents();
+        calculateSGPA();
+      });
+    }
+
+    if (calcExecuteBtn) {
+      calcExecuteBtn.addEventListener('click', calculateSGPA);
+    }
+
+    if (calcResetBtn) {
+      calcResetBtn.addEventListener('click', () => {
+        renderSubjectRows(defaultSubjects);
+      });
+    }
+
+    // Mode Toggle (SGPA vs CGPA across Terms)
+    if (modeSgpaBtn && modeCgpaBtn) {
+      modeSgpaBtn.addEventListener('click', () => {
+        modeSgpaBtn.classList.add('active');
+        modeCgpaBtn.classList.remove('active');
+        state.calcMode = 'sgpa';
+        document.getElementById('calcHeaderLabel').textContent = "Term Subjects & Credits";
+        renderSubjectRows(defaultSubjects);
+      });
+
+      modeCgpaBtn.addEventListener('click', () => {
+        modeCgpaBtn.classList.add('active');
+        modeSgpaBtn.classList.remove('active');
+        state.calcMode = 'cgpa';
+        document.getElementById('calcHeaderLabel').textContent = "Completed Terms / Semesters";
+        renderSubjectRows([
+          { name: "Term 1 (Semester I)", credits: 22, grade: "O" },
+          { name: "Term 2 (Semester II)", credits: 24, grade: "A+" },
+          { name: "Term 3 (Semester III)", credits: 25, grade: "A+" },
+          { name: "Term 4 (Semester IV)", credits: 24, grade: "O" }
+        ]);
+      });
+    }
+
+    function calculateSGPA() {
+      const rows = container.querySelectorAll('.subject-row');
+      let totalCreditPoints = 0;
+      let totalCredits = 0;
+
+      rows.forEach(row => {
+        const credits = parseFloat(row.querySelector('.sub-credits-input').value) || 0;
+        const grade = row.querySelector('.sub-grade-select').value;
+        const points = GRADE_POINTS[grade] !== undefined ? GRADE_POINTS[grade] : 0;
+
+        totalCreditPoints += (credits * points);
+        totalCredits += credits;
+      });
+
+      const gpa = totalCredits > 0 ? (totalCreditPoints / totalCredits) : 0;
+      const formattedGpa = gpa.toFixed(2);
+      const equivalentPercentage = totalCredits > 0 ? ((gpa * 9.5).toFixed(1) + '%') : '0%';
+
+      let academicClass = "First Class with Distinction (Honors)";
+      if (gpa < 5.0) academicClass = "Re-appear Required (Fail)";
+      else if (gpa < 6.0) academicClass = "Second Class";
+      else if (gpa < 7.5) academicClass = "First Class";
+
+      // Update Result Display
+      const scoreNumber = document.getElementById('calcScoreNumber');
+      const scoreTotalCredits = document.getElementById('calcTotalCredits');
+      const scoreGradePoints = document.getElementById('calcTotalPoints');
+      const scorePercent = document.getElementById('calcPercentage');
+      const classBadge = document.getElementById('calcClassBadge');
+      const resultTitle = document.getElementById('calcResultTitle');
+
+      if (scoreNumber) scoreNumber.textContent = formattedGpa;
+      if (scoreTotalCredits) scoreTotalCredits.textContent = totalCredits;
+      if (scoreGradePoints) scoreGradePoints.textContent = totalCreditPoints.toFixed(1);
+      if (scorePercent) scorePercent.textContent = equivalentPercentage;
+      if (classBadge) classBadge.textContent = academicClass;
+      if (resultTitle) resultTitle.textContent = state.calcMode === 'sgpa' ? "Semester SGPA" : "Cumulative CGPA";
+    }
+
+    // Initial render
+    renderSubjectRows(defaultSubjects);
+  }
+
+  // =================================================================
+  // 6. Admission & Intake Rendering
   // =================================================================
   function renderAdmissions() {
     const container = document.getElementById('intakeGrid');
@@ -130,12 +433,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let programs = data.admissions.programs;
 
-    // Degree Level Filter
     if (state.admissionDegreeFilter !== 'all') {
       programs = programs.filter(p => p.level.toLowerCase() === state.admissionDegreeFilter.toLowerCase());
     }
 
-    // Search Query Filter
     if (state.admissionSearchQuery.trim() !== '') {
       const q = state.admissionSearchQuery.toLowerCase();
       programs = programs.filter(p => 
@@ -148,9 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (programs.length === 0) {
       container.innerHTML = `
         <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <p style="font-size: 1.1rem; font-weight: 700;">No programs matching your search criteria.</p>
-          <p style="font-size: 0.88rem;">Try clearing the search query or selecting "All Levels".</p>
         </div>
       `;
       return;
@@ -181,11 +480,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="seat-count-left" style="${isAlmostFull ? 'color: var(--danger);' : ''}">${seatsLeft} Seats Open</span>
               </div>
               <div class="seat-progress-track">
-                <div class="seat-progress-bar" style="width: ${percentFilled}%; background: ${isAlmostFull ? 'linear-gradient(90deg, #f59e0b, #dc2626)' : 'linear-gradient(90deg, #2563eb, #059669)'};"></div>
+                <div class="seat-progress-bar" style="width: ${percentFilled}%; background: ${isAlmostFull ? 'linear-gradient(90deg, #75479C, #BD3861)' : 'linear-gradient(90deg, #0B74B0, #75479C)'};"></div>
               </div>
               <div class="seat-quota-tags">
                 <span>Merit: ${prog.intakeBreakdown.meritQuota}</span>
-                <span>CET/JEE: ${prog.intakeBreakdown.entranceExamQuota}</span>
+                <span>Entrance/GUJCET: ${prog.intakeBreakdown.entranceExamQuota}</span>
                 <span>Sports/NRI: ${prog.intakeBreakdown.sportsNriQuota}</span>
               </div>
             </div>
@@ -194,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <ul style="list-style: none; margin-bottom: 0.5rem; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: var(--text-secondary);">
               ${prog.highlights.map(h => `
                 <li style="display:flex; align-items:center; gap:0.4rem;">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color:var(--success); flex-shrink:0;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color:var(--primary); flex-shrink:0;"><polyline points="20 6 9 17 4 12"></polyline></svg>
                   <span>${h}</span>
                 </li>
               `).join('')}
@@ -214,7 +513,6 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }).join('');
 
-    // Attach click listeners to Apply Online buttons
     container.querySelectorAll('[data-apply-course]').forEach(btn => {
       btn.addEventListener('click', () => {
         const courseTitle = btn.getAttribute('data-course-title');
@@ -224,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =================================================================
-  // 2. Faculties Rendering and Filtering
+  // 7. Faculties Rendering
   // =================================================================
   function renderFaculties() {
     const container = document.getElementById('facultyGrid');
@@ -232,12 +530,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let faculties = data.faculties;
 
-    // Department Filter
     if (state.facultyDeptFilter !== 'all') {
       faculties = faculties.filter(f => f.departmentId === state.facultyDeptFilter);
     }
 
-    // Search Query
     if (state.facultySearchQuery.trim() !== '') {
       const q = state.facultySearchQuery.toLowerCase();
       faculties = faculties.filter(f =>
@@ -251,9 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (faculties.length === 0) {
       container.innerHTML = `
         <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 0.75rem;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <p style="font-size: 1.1rem; font-weight: 700;">No faculty members found.</p>
-          <p style="font-size: 0.88rem;">Try selecting "All Departments" or adjusting your search terms.</p>
         </div>
       `;
       return;
@@ -299,7 +593,6 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `).join('');
 
-    // Attach listener for Faculty Details Modal
     container.querySelectorAll('[data-faculty-id]').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-faculty-id');
@@ -309,7 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =================================================================
-  // 3. Campus Insights Rendering and Filtering
+  // 8. Campus Insights
   // =================================================================
   function renderCampusInsights() {
     const container = document.getElementById('campusInsightsGrid');
@@ -317,12 +610,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let insights = data.campusInsights;
 
-    // Category Filter
     if (state.campusCategoryFilter !== 'all') {
       insights = insights.filter(c => c.category === state.campusCategoryFilter);
     }
 
-    // Search Query
     if (state.campusSearchQuery.trim() !== '') {
       const q = state.campusSearchQuery.toLowerCase();
       insights = insights.filter(c =>
@@ -330,15 +621,6 @@ document.addEventListener('DOMContentLoaded', () => {
         c.description.toLowerCase().includes(q) ||
         c.location.toLowerCase().includes(q)
       );
-    }
-
-    if (insights.length === 0) {
-      container.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
-          <p style="font-size: 1.1rem; font-weight: 700;">No campus facilities found matching your criteria.</p>
-        </div>
-      `;
-      return;
     }
 
     container.innerHTML = insights.map(item => `
@@ -374,7 +656,6 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `).join('');
 
-    // Attach click listener for Campus Modal
     container.querySelectorAll('[data-insight-id]').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-insight-id');
@@ -384,7 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =================================================================
-  // 4. Sports Facilities Rendering and Filtering
+  // 9. Sports Facilities
   // =================================================================
   function renderSportsFacilities() {
     const container = document.getElementById('sportsFacilityGrid');
@@ -434,7 +715,6 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `).join('');
 
-    // Attach click listener for Sports Slot Booking Modal
     container.querySelectorAll('[data-sport-id]').forEach(btn => {
       btn.addEventListener('click', () => {
         const sportName = btn.getAttribute('data-sport-name');
@@ -444,7 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =================================================================
-  // 5. Placements Rendering ("etc." option)
+  // 10. Placements & Notices
   // =================================================================
   function renderPlacements() {
     const recruitersContainer = document.getElementById('recruitersGrid');
@@ -461,9 +741,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `).join('');
   }
 
-  // =================================================================
-  // 6. Notices Rendering ("etc." option)
-  // =================================================================
   function renderNotices() {
     const noticesContainer = document.getElementById('noticesList');
     if (!noticesContainer) return;
@@ -488,10 +765,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =================================================================
-  // Setup Interactive Controls & Event Listeners
+  // 11. Event Listeners Setup
   // =================================================================
   function setupEventListeners() {
-    // 1. Admission Level Filters
+    // Top Rankers Term Pills
+    document.querySelectorAll('.term-pill-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.term-pill-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const termId = btn.getAttribute('data-term');
+        renderTopRankers(termId);
+      });
+    });
+
+    // Admission Degree Filter
     document.querySelectorAll('.degree-pill-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.degree-pill-btn').forEach(b => b.classList.remove('active'));
@@ -509,7 +796,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 2. Faculty Department Filters & Search
+    // Faculty Department Filter
     const facultyDeptFilter = document.getElementById('facultyDeptSelect');
     if (facultyDeptFilter) {
       facultyDeptFilter.addEventListener('change', (e) => {
@@ -526,7 +813,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 3. Campus Category Filters & Search
+    // Campus Category Filter
     document.querySelectorAll('.campus-pill-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.campus-pill-btn').forEach(b => b.classList.remove('active'));
@@ -544,7 +831,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 4. Sports Filter & Search
+    // Sports Type Filter
     const sportsSelect = document.getElementById('sportsTypeSelect');
     if (sportsSelect) {
       sportsSelect.addEventListener('change', (e) => {
@@ -563,10 +850,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =================================================================
-  // Modal Controllers
+  // 12. Modal Controllers
   // =================================================================
   function initModals() {
-    // Close modal on click of backdrop or close button
     document.querySelectorAll('.modal-overlay').forEach(modal => {
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
@@ -592,14 +878,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Handle Admission Form Submission
+    // Admission Form Submit
     const admissionForm = document.getElementById('admissionApplyForm');
     if (admissionForm) {
       admissionForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const studentName = document.getElementById('appFullName').value;
         const studentCourse = document.getElementById('appCourseSelect').value;
-        const randomId = 'AIST-' + Math.floor(100000 + Math.random() * 900000);
+        const randomId = 'AU-' + Math.floor(100000 + Math.random() * 900000);
 
         const modalBody = document.getElementById('applyModalBody');
         modalBody.innerHTML = `
@@ -607,16 +893,16 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="confirm-icon">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
             </div>
-            <h3 style="font-size: 1.35rem; font-weight: 850; margin-bottom: 0.5rem; color: var(--text-primary);">Application Submitted Successfully!</h3>
+            <h3 style="font-size: 1.35rem; font-weight: 850; margin-bottom: 0.5rem; color: var(--text-primary);">Application Received!</h3>
             <p style="color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 0.5rem;">
-              Thank you, <strong>${studentName}</strong>. Your provisional application for <strong>${studentCourse}</strong> has been received by the Central Admissions Office.
+              Thank you, <strong>${studentName}</strong>. Your provisional application for <strong>${studentCourse}</strong> has been logged with the Adani University Admissions Council.
             </p>
-            <div class="confirm-id-tag">Application Reference ID: ${randomId}</div>
+            <div class="confirm-id-tag">Application Reference: ${randomId}</div>
             <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.5rem;">
-              An email and SMS confirmation containing your tracking link and document verification schedule has been dispatched.
+              Our counselors will contact you regarding document submission and scholarship evaluation.
             </p>
             <button class="btn-primary-apply" style="margin: 0 auto;" onclick="document.getElementById('applyModal').classList.remove('active'); location.reload();">
-              Return to Portal
+              Done & Return
             </button>
           </div>
         `;
@@ -624,7 +910,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Handle Sports Booking Submission
+    // Sports Booking Submit
     const sportsForm = document.getElementById('sportsBookingForm');
     if (sportsForm) {
       sportsForm.addEventListener('submit', (e) => {
@@ -632,24 +918,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const facilityName = document.getElementById('sportsFacilityNameInput').value;
         const slotTime = document.getElementById('sportsSlotTime').value;
         const slotDate = document.getElementById('sportsDate').value;
-        const passId = 'SPORT-' + Math.floor(1000 + Math.random() * 9000);
+        const passId = 'AU-SPORT-' + Math.floor(1000 + Math.random() * 9000);
 
         const modalBody = document.getElementById('sportsModalBody');
         modalBody.innerHTML = `
           <div class="confirmation-box">
-            <div class="confirm-icon" style="background-color: var(--accent-light); color: var(--accent);">
+            <div class="confirm-icon" style="background-color: var(--adani-magenta-subtle); color: var(--adani-magenta);">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
             </div>
             <h3 style="font-size: 1.35rem; font-weight: 850; margin-bottom: 0.5rem; color: var(--text-primary);">Court Slot Confirmed!</h3>
             <p style="color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 0.5rem;">
               Your reservation for <strong>${facilityName}</strong> on <strong>${slotDate}</strong> at <strong>${slotTime}</strong> is confirmed.
             </p>
-            <div class="confirm-id-tag" style="border-color: var(--accent); color: var(--accent);">Court Pass: ${passId}</div>
+            <div class="confirm-id-tag" style="border-color: var(--adani-magenta); color: var(--adani-magenta);">Court Pass: ${passId}</div>
             <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.5rem;">
-              Please show this e-pass and your Student / Faculty ID card to the ground attendant upon entry.
+              Present this digital pass to the Shantigram Sports Ground Attendant on arrival.
             </p>
-            <button class="btn-primary-apply" style="margin: 0 auto; background: var(--accent);" onclick="document.getElementById('sportsModal').classList.remove('active');">
-              Close & Save Pass
+            <button class="btn-primary-apply" style="margin: 0 auto;" onclick="document.getElementById('sportsModal').classList.remove('active');">
+              Close Pass
             </button>
           </div>
         `;
@@ -674,12 +960,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Open Apply Modal helper
   function openApplyModal(preselectedCourse = '') {
     const modal = document.getElementById('applyModal');
     if (!modal) return;
 
-    // Populate course select options
     const select = document.getElementById('appCourseSelect');
     if (select) {
       select.innerHTML = data.admissions.programs.map(p => {
@@ -692,7 +976,6 @@ document.addEventListener('DOMContentLoaded', () => {
     openModal('applyModal');
   }
 
-  // Open Faculty Profile Modal
   function openFacultyModal(facultyId) {
     const fac = data.faculties.find(f => f.id === facultyId);
     if (!fac) return;
@@ -700,7 +983,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalTitle = document.getElementById('facultyModalTitle');
     const modalBody = document.getElementById('facultyModalBody');
 
-    if (modalTitle) modalTitle.textContent = `${fac.name} - Academic Profile`;
+    if (modalTitle) modalTitle.textContent = `${fac.name} - Faculty Profile`;
 
     if (modalBody) {
       modalBody.innerHTML = `
@@ -708,9 +991,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <img src="${fac.avatar}" alt="${fac.name}" style="width: 110px; height: 110px; border-radius: 16px; object-fit: cover; border: 2px solid var(--border-medium);">
           <div style="flex: 1; min-width: 240px;">
             <h3 style="font-size: 1.35rem; font-weight: 850; color: var(--text-primary); margin-bottom: 0.25rem;">${fac.name}</h3>
-            <div style="color: var(--primary-light); font-weight: 750; font-size: 0.95rem; margin-bottom: 0.4rem;">${fac.designation}</div>
+            <div style="color: var(--primary); font-weight: 750; font-size: 0.95rem; margin-bottom: 0.4rem;">${fac.designation}</div>
             <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">${fac.departmentName}</div>
-            <div style="display: inline-flex; align-items: center; gap: 0.4rem; background: var(--primary-subtle); color: var(--primary-light); font-size: 0.78rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 99px;">
+            <div style="display: inline-flex; align-items: center; gap: 0.4rem; background: var(--adani-blue-subtle); color: var(--primary); font-size: 0.78rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 99px;">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
               ${fac.email}
             </div>
@@ -718,26 +1001,26 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
 
         <div style="margin-bottom: 1.25rem;">
-          <h5 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.35rem;">Educational Background</h5>
+          <h5 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.35rem;">Educational Qualifications</h5>
           <p style="font-size: 0.9rem; color: var(--text-primary);">${fac.qualification}</p>
         </div>
 
         <div style="margin-bottom: 1.25rem;">
-          <h5 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.35rem;">Biography & Research Impact</h5>
+          <h5 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.35rem;">Academic & Research Contributions</h5>
           <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">${fac.bio}</p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.25rem; text-align: center;">
           <div>
-            <span style="font-size: 1.25rem; font-weight: 850; color: var(--primary-light);">${fac.experience}</span>
-            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Teaching & Research</div>
+            <span style="font-size: 1.25rem; font-weight: 850; color: var(--primary);">${fac.experience}</span>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Teaching & R&D</div>
           </div>
           <div>
-            <span style="font-size: 1.25rem; font-weight: 850; color: var(--primary-light);">${fac.publications}</span>
-            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Refereed Papers</div>
+            <span style="font-size: 1.25rem; font-weight: 850; color: var(--adani-purple);">${fac.publications}</span>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Journal Papers</div>
           </div>
           <div>
-            <span style="font-size: 1.25rem; font-weight: 850; color: var(--primary-light);">${fac.patents}</span>
+            <span style="font-size: 1.25rem; font-weight: 850; color: var(--adani-magenta);">${fac.patents}</span>
             <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Granted Patents</div>
           </div>
         </div>
@@ -758,7 +1041,6 @@ document.addEventListener('DOMContentLoaded', () => {
     openModal('facultyModal');
   }
 
-  // Open Campus Insight Modal
   function openCampusModal(insightId) {
     const item = data.campusInsights.find(c => c.id === insightId);
     if (!item) return;
@@ -785,7 +1067,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </span>
         </div>
         <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 1.5rem;">${item.description}</p>
-        <h5 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.75rem;">Key Specifications & Amenities</h5>
+        <h5 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.75rem;">Key Specifications & Infrastructure</h5>
         <ul class="campus-specs-list" style="margin-bottom: 1rem;">
           ${item.keySpecs.map(spec => `
             <li>
@@ -800,12 +1082,10 @@ document.addEventListener('DOMContentLoaded', () => {
     openModal('campusModal');
   }
 
-  // Open Sports Slot Booking Modal
   function openSportsModal(sportName) {
     const input = document.getElementById('sportsFacilityNameInput');
     if (input) input.value = sportName;
 
-    // Set minimum date to today
     const dateInput = document.getElementById('sportsDate');
     if (dateInput) {
       const today = new Date().toISOString().split('T')[0];
@@ -816,7 +1096,6 @@ document.addEventListener('DOMContentLoaded', () => {
     openModal('sportsModal');
   }
 
-  // Mobile Navigation toggle
   function initMobileNav() {
     const toggleBtn = document.getElementById('mobileMenuBtn');
     const navMenu = document.getElementById('mainNavMenu');
@@ -840,7 +1119,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Expose global helpers to window
   window.openApplyModal = openApplyModal;
   window.switchDashboardTab = switchDashboardTab;
 });

@@ -1,552 +1,762 @@
-// College Data Store for Apex Institute of Science & Technology (AIST)
+// ===================================================================
+// Adani University - Central Data Store
+// Theme Colors: Blue (#0B74B0), Purple (#75479C), Magenta/Pink (#BD3861)
+// ===================================================================
 
 const CollegeData = {
   info: {
-    name: "Apex Institute of Science & Technology",
-    shortName: "AIST",
-    tagline: "Empowering Minds, Engineering Tomorrow",
-    established: "1988",
-    accreditation: "NAAC A++ Grade (CGPA 3.84) | NBA Accredited | NIRF Top 20",
-    affiliation: "Autonomous Institution affiliated with State Technical University",
-    location: "Knowledge City, Tech Valley Campus, Bangalore - 560100",
-    phone: "+91 (080) 4123-8900 / +91 (080) 4123-8901",
-    email: "admissions@apex-institute.edu.in",
+    name: "Adani University",
+    shortName: "AU",
+    tagline: "Nation Building Through Education, Technology & Global Innovation",
+    established: "2014",
+    accreditation: "NAAC A+ Grade | UGC Recognized | AICTE Approved | NIRF Top Ranked",
+    affiliation: "State Private University Established under Gujarat Private Universities Act",
+    location: "Adani Shantigram, S.G. Highway, Ahmedabad - 382421, Gujarat, India",
+    phone: "+91 79 2555 6000 / +91 79 2555 6001",
+    email: "admissions@adaniuni.ac.in",
+    videoTour: "https://assets.mixkit.co/videos/preview/mixkit-students-walking-in-a-university-campus-43384-large.mp4",
     stats: {
-      students: "9,800+",
-      faculty: "430+",
-      facultyPhd: "88%",
-      campusAcres: "85 Acres",
-      placementRate: "98.4%",
-      highestPackage: "₹54.2 LPA",
-      averagePackage: "₹12.6 LPA",
-      recruiters: "220+",
-      researchLabs: "42",
-      patentsPublished: "185+"
+      students: "8,500+",
+      faculty: "380+",
+      facultyPhd: "86%",
+      campusAcres: "600-Acre Integrated Shantigram Township",
+      placementRate: "98.7%",
+      highestPackage: "₹52.5 LPA",
+      averagePackage: "₹11.8 LPA",
+      recruiters: "240+",
+      researchLabs: "38",
+      patentsPublished: "160+"
     }
   },
 
   departments: [
     { id: "all", name: "All Departments" },
-    { id: "cse", name: "Computer Science & Engineering" },
-    { id: "ai_ds", name: "Artificial Intelligence & Data Science" },
-    { id: "ece", name: "Electronics & Communication" },
-    { id: "mech", name: "Mechanical & Mechatronics" },
-    { id: "biotech", name: "Biotechnology & Bioinformatics" },
-    { id: "mgmt", name: "School of Management & Business" }
+    { id: "cse", name: "Computer Science & Engineering (AI & ML)" },
+    { id: "infra", name: "Civil & Infrastructure Engineering" },
+    { id: "energy", name: "Energy Science & Renewable Systems" },
+    { id: "ict", name: "Information & Communication Technology" },
+    { id: "mgmt", name: "Faculty of Management Sciences" }
   ],
 
+  // =================================================================
+  // TOP RANKERS IN EACH TERM / SEMESTER
+  // =================================================================
+  topRankers: {
+    terms: [
+      { id: "term-1", name: "Term 1 (Semester I)" },
+      { id: "term-2", name: "Term 2 (Semester II)" },
+      { id: "term-3", name: "Term 3 (Semester III)" },
+      { id: "term-4", name: "Term 4 (Semester IV)" },
+      { id: "term-5", name: "Term 5 (Semester V)" },
+      { id: "term-6", name: "Term 6 (Semester VI)" }
+    ],
+    rankers: [
+      // Term 1 Rankers
+      {
+        id: "tr-101",
+        termId: "term-1",
+        rank: 1,
+        medal: "gold",
+        name: "Aarav Patel",
+        rollNo: "AU25CSE014",
+        department: "Computer Science & AI",
+        cgpa: "9.94",
+        credits: "22 / 22",
+        award: "Chancellor's Gold Medal & 100% Academic Merit Scholarship",
+        avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80",
+        quote: "Focused consistent problem solving and peer discussions in the Adani R&D lab helped me master the foundational credits."
+      },
+      {
+        id: "tr-102",
+        termId: "term-1",
+        rank: 2,
+        medal: "silver",
+        name: "Meera Trivedi",
+        rollNo: "AU25ICT029",
+        department: "Information & Communication Tech",
+        cgpa: "9.86",
+        credits: "22 / 22",
+        award: "Dean's List of Excellence & Academic Citation",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+        quote: "The open mentorship by our professors made mastering engineering physics and data structures intuitive."
+      },
+      {
+        id: "tr-103",
+        termId: "term-1",
+        rank: 3,
+        medal: "bronze",
+        name: "Rohan Deshmukh",
+        rollNo: "AU25INF008",
+        department: "Civil & Infrastructure Engg",
+        cgpa: "9.80",
+        credits: "22 / 22",
+        award: "Departmental High Achiever Award",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+        quote: "Hands-on survey projects in Shantigram gave me deep practical clarity on engineering mechanics."
+      },
+
+      // Term 2 Rankers
+      {
+        id: "tr-201",
+        termId: "term-2",
+        rank: 1,
+        medal: "gold",
+        name: "Ananya Iyer",
+        rollNo: "AU24CSE042",
+        department: "Computer Science & Engineering",
+        cgpa: "9.96",
+        credits: "24 / 24",
+        award: "Chairman's Trophy for Academic Brilliance & Research Fellowship",
+        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
+        quote: "Building real-time algorithms alongside coursework made the semester thoroughly rewarding."
+      },
+      {
+        id: "tr-202",
+        termId: "term-2",
+        rank: 2,
+        medal: "silver",
+        name: "Devendra Shah",
+        rollNo: "AU24EN011",
+        department: "Energy Science & Renewable Systems",
+        cgpa: "9.89",
+        credits: "24 / 24",
+        award: "Dean's Merit Citation & Solar Lab Fellowship",
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+        quote: "Hands-on projects with Adani Solar micro-grids made green thermodynamics come alive."
+      },
+      {
+        id: "tr-203",
+        termId: "term-2",
+        rank: 3,
+        medal: "bronze",
+        name: "Kavya Menon",
+        rollNo: "AU24MBA019",
+        department: "Faculty of Management Sciences",
+        cgpa: "9.82",
+        credits: "24 / 24",
+        award: "Adani Business School Honors List",
+        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
+        quote: "Deep financial modeling case studies in term 2 set the tone for strategic thinking."
+      },
+
+      // Term 3 Rankers
+      {
+        id: "tr-301",
+        termId: "term-3",
+        rank: 1,
+        medal: "gold",
+        name: "Siddharth Verma",
+        rollNo: "AU23CSE005",
+        department: "Computer Science (AI & ML)",
+        cgpa: "9.98",
+        credits: "25 / 25",
+        award: "President's Medal for Flawless Academic Record",
+        avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80",
+        quote: "Consistent coursework revision and participating in the Adani Hackathon pushed my limits."
+      },
+      {
+        id: "tr-302",
+        termId: "term-3",
+        rank: 2,
+        medal: "silver",
+        name: "Pooja Kulkarni",
+        rollNo: "AU23INF034",
+        department: "Infrastructure Engineering",
+        cgpa: "9.90",
+        credits: "25 / 25",
+        award: "Smart Cities Research Excellence Award",
+        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
+        quote: "Analyzing multi-modal transit systems in term 3 gave me practical mastery over structural theory."
+      },
+      {
+        id: "tr-303",
+        termId: "term-3",
+        rank: 3,
+        medal: "bronze",
+        name: "Aditya Mehta",
+        rollNo: "AU23ICT017",
+        department: "Information & Communication Tech",
+        cgpa: "9.84",
+        credits: "25 / 25",
+        award: "Dean's Honor Roll Citation",
+        avatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80",
+        quote: "Collaborative group labs and mentor hours in IoT systems made all the difference."
+      },
+
+      // Term 4 Rankers
+      {
+        id: "tr-401",
+        termId: "term-4",
+        rank: 1,
+        medal: "gold",
+        name: "Ishita Singhania",
+        rollNo: "AU22CSE031",
+        department: "Computer Science & Engineering",
+        cgpa: "9.95",
+        credits: "24 / 24",
+        award: "Academic Star Award & Global Internship Sponsor",
+        avatar: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=400&q=80",
+        quote: "Adani University's focus on cloud architecture and distributed computing paved my way to top scores."
+      },
+      {
+        id: "tr-402",
+        termId: "term-4",
+        rank: 2,
+        medal: "silver",
+        name: "Varun Jha",
+        rollNo: "AU22EN004",
+        department: "Energy Science & Smart Grids",
+        cgpa: "9.88",
+        credits: "24 / 24",
+        award: "Green Hydrogen Research Fellowship",
+        avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80",
+        quote: "Applying machine learning to renewable energy simulations elevated my understanding."
+      },
+      {
+        id: "tr-403",
+        termId: "term-4",
+        rank: 3,
+        medal: "bronze",
+        name: "Sneha Nair",
+        rollNo: "AU22MBA009",
+        department: "Faculty of Management Sciences",
+        cgpa: "9.81",
+        credits: "24 / 24",
+        award: "Dean's Business Excellence Citation",
+        avatar: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=80",
+        quote: "Real case studies in supply chain management and infrastructure finance created an inspiring learning curve."
+      },
+
+      // Term 5 Rankers
+      {
+        id: "tr-501",
+        termId: "term-5",
+        rank: 1,
+        medal: "gold",
+        name: "Karan Malhotra",
+        rollNo: "AU21CSE002",
+        department: "Computer Science (AI & ML)",
+        cgpa: "9.97",
+        credits: "26 / 26",
+        award: "Dean of Engineering Gold Shield & Google Placement Pre-Offer",
+        avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80",
+        quote: "Our deep-tech research publications directly counted toward our semester evaluations."
+      },
+      {
+        id: "tr-502",
+        termId: "term-5",
+        rank: 2,
+        medal: "silver",
+        name: "Ritika Joshi",
+        rollNo: "AU21INF019",
+        department: "Infrastructure Engineering",
+        cgpa: "9.91",
+        credits: "26 / 26",
+        award: "L&T Infrastructure Scholar Award",
+        avatar: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=400&q=80",
+        quote: "Working on metro rail simulation models in semester 5 solidified my design fundamentals."
+      },
+      {
+        id: "tr-503",
+        termId: "term-5",
+        rank: 3,
+        medal: "bronze",
+        name: "Nikhil Chawla",
+        rollNo: "AU21ICT022",
+        department: "Information & Communication Tech",
+        cgpa: "9.85",
+        credits: "26 / 26",
+        award: "IoT Patent Achievement Citation",
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
+        quote: "Consistent practical test execution gave me confidence across every subject exam."
+      },
+
+      // Term 6 Rankers
+      {
+        id: "tr-601",
+        termId: "term-6",
+        rank: 1,
+        medal: "gold",
+        name: "Tanvi Saxena",
+        rollNo: "AU20CSE027",
+        department: "Computer Science & Engineering",
+        cgpa: "9.98",
+        credits: "24 / 24",
+        award: "Valedictorian Nominee & Microsoft SDE Fellowship",
+        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
+        quote: "Final year capstone research under Dr. Sen gave me a 10.0 SGPA in both advanced electives."
+      },
+      {
+        id: "tr-602",
+        termId: "term-6",
+        rank: 2,
+        medal: "silver",
+        name: "Pranav Bhatt",
+        rollNo: "AU20EN015",
+        department: "Energy Science & Systems",
+        cgpa: "9.90",
+        credits: "24 / 24",
+        award: "Adani Green Energy Innovation Award",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+        quote: "Publishing two international papers while managing core credits helped me earn a spot in the Dean's list."
+      },
+      {
+        id: "tr-603",
+        termId: "term-6",
+        rank: 3,
+        medal: "bronze",
+        name: "Deepali Rao",
+        rollNo: "AU20INF003",
+        department: "Infrastructure Engineering",
+        cgpa: "9.86",
+        credits: "24 / 24",
+        award: "Adani Shantigram Urban Planning Scholar",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+        quote: "Rigorous coursework coupled with live site visits made scoring consistently rewarding."
+      }
+    ]
+  },
+
+  // =================================================================
+  // ADMISSION & INTAKE INFORMATION
+  // =================================================================
   admissions: {
     academicYear: "2026 - 2027",
-    applicationDeadline: "May 30, 2026",
-    counselingDate: "June 15, 2026",
-    classesCommence: "August 01, 2026",
-    helpline: "+91 98860 12345",
+    applicationDeadline: "June 10, 2026",
+    counselingDate: "June 25, 2026",
+    classesCommence: "August 03, 2026",
+    helpline: "+91 79 2555 6000",
     programs: [
       {
-        id: "btech-cse",
+        id: "btech-cse-ai",
         level: "Undergraduate",
         degree: "B.Tech",
-        specialization: "Computer Science & Engineering",
+        specialization: "Computer Science & Engineering (AI & ML)",
         departmentId: "cse",
-        duration: "4 Years (8 Semesters)",
+        duration: "4 Years (8 Terms)",
         totalIntake: 240,
-        enrolledSeats: 198,
-        tuitionFeePerYear: "₹1,95,000",
-        eligibility: "10+2 with Physics, Mathematics & Chemistry with minimum 65% marks. Valid JEE Main or State CET rank.",
+        enrolledSeats: 210,
+        tuitionFeePerYear: "₹2,10,000",
+        eligibility: "10+2 with Physics, Mathematics & Chemistry with minimum 65% aggregate. Valid GUJCET / JEE Main rank.",
         intakeBreakdown: {
           meritQuota: 120,
           entranceExamQuota: 84,
           sportsNriQuota: 36
         },
-        highlights: ["Specializations in Cloud & Cyber Security", "Industry capstone with Microsoft & AWS", "Average Package: ₹14.5 LPA"]
+        highlights: ["Adani AI High-Performance GPU Cluster", "Curriculum supported by NVIDIA & Google Cloud", "Average Package: ₹14.8 LPA"]
       },
       {
-        id: "btech-ai-ds",
+        id: "btech-infra",
         level: "Undergraduate",
         degree: "B.Tech",
-        specialization: "Artificial Intelligence & Data Science",
-        departmentId: "ai_ds",
-        duration: "4 Years (8 Semesters)",
-        totalIntake: 180,
-        enrolledSeats: 152,
-        tuitionFeePerYear: "₹1,95,000",
-        eligibility: "10+2 with 65% aggregate in PCM. Valid JEE Main / CET score required.",
-        intakeBreakdown: {
-          meritQuota: 90,
-          entranceExamQuota: 65,
-          sportsNriQuota: 25
-        },
-        highlights: ["Dedicated High-Performance GPU Supercluster", "Curriculum partnered with NVIDIA Deep Learning Institute", "Highest package ₹54.2 LPA"]
-      },
-      {
-        id: "btech-ece",
-        level: "Undergraduate",
-        degree: "B.Tech",
-        specialization: "Electronics & Communication Engineering",
-        departmentId: "ece",
-        duration: "4 Years (8 Semesters)",
-        totalIntake: 180,
-        enrolledSeats: 130,
-        tuitionFeePerYear: "₹1,75,000",
-        eligibility: "10+2 with 60% aggregate in PCM. Valid CET / JEE score.",
-        intakeBreakdown: {
-          meritQuota: 90,
-          entranceExamQuota: 65,
-          sportsNriQuota: 25
-        },
-        highlights: ["VLSI Design Center & Embedded IoT Lab (Qualcomm supported)", "Robotics & Drone prototyping track", "High core industry placement rate"]
-      },
-      {
-        id: "btech-mech",
-        level: "Undergraduate",
-        degree: "B.Tech",
-        specialization: "Mechanical & Mechatronics Engineering",
-        departmentId: "mech",
-        duration: "4 Years (8 Semesters)",
+        specialization: "Civil & Infrastructure Engineering",
+        departmentId: "infra",
+        duration: "4 Years (8 Terms)",
         totalIntake: 120,
-        enrolledSeats: 82,
-        tuitionFeePerYear: "₹1,50,000",
-        eligibility: "10+2 with minimum 60% in Physics, Chemistry, and Mathematics.",
+        enrolledSeats: 94,
+        tuitionFeePerYear: "₹1,75,000",
+        eligibility: "10+2 with minimum 60% aggregate in PCM. Valid JEE Main / GUJCET score.",
         intakeBreakdown: {
           meritQuota: 60,
           entranceExamQuota: 45,
           sportsNriQuota: 15
         },
-        highlights: ["Formula Student Racing & Baja SAE workspace", "Industrial 3D Printing & CNC Automation Hub", "Industry partners: Bosch, Siemens, L&T"]
+        highlights: ["Direct immersion in Adani Ports, Airports & High-Speed Rail Projects", "BIM 3D Modeling & Smart City Simulation Labs", "100% Core Industry Placements"]
       },
       {
-        id: "btech-biotech",
+        id: "btech-energy",
         level: "Undergraduate",
         degree: "B.Tech",
-        specialization: "Biotechnology & Bioinformatics",
-        departmentId: "biotech",
-        duration: "4 Years (8 Semesters)",
-        totalIntake: 60,
-        enrolledSeats: 48,
-        tuitionFeePerYear: "₹1,60,000",
-        eligibility: "10+2 with PCB/PCM minimum 60% marks from a recognized board.",
+        specialization: "Energy Science & Renewable Systems",
+        departmentId: "energy",
+        duration: "4 Years (8 Terms)",
+        totalIntake: 90,
+        enrolledSeats: 72,
+        tuitionFeePerYear: "₹1,85,000",
+        eligibility: "10+2 with PCM minimum 60% from recognized state/central board.",
         intakeBreakdown: {
-          meritQuota: 30,
-          entranceExamQuota: 22,
-          sportsNriQuota: 8
+          meritQuota: 45,
+          entranceExamQuota: 33,
+          sportsNriQuota: 12
         },
-        highlights: ["Bio-spectroscopy & Genetic Engineering Cleanrooms", "Tie-ups with Biocon & Serum Institute for internships", "Computational Drug Discovery track"]
+        highlights: ["Green Hydrogen & Battery Energy Storage Labs", "Partnership with Adani Green Energy Khavda Mega Project", "Sponsored Research Internships"]
+      },
+      {
+        id: "btech-ict",
+        level: "Undergraduate",
+        degree: "B.Tech",
+        specialization: "Information & Communication Technology",
+        departmentId: "ict",
+        duration: "4 Years (8 Terms)",
+        totalIntake: 180,
+        enrolledSeats: 148,
+        tuitionFeePerYear: "₹1,95,000",
+        eligibility: "10+2 with 60% in PCM. Valid JEE Main / GUJCET rank.",
+        intakeBreakdown: {
+          meritQuota: 90,
+          entranceExamQuota: 65,
+          sportsNriQuota: 25
+        },
+        highlights: ["5G Wireless Testbed & Smart Sensor Networks", "Cyber Defense & Cloud Automation Labs", "Highest package ₹52.5 LPA"]
       },
       {
         id: "mtech-cse",
         level: "Postgraduate",
         degree: "M.Tech",
-        specialization: "Computer Science (Machine Intelligence)",
+        specialization: "Artificial Intelligence & Distributed Data Systems",
         departmentId: "cse",
-        duration: "2 Years (4 Semesters)",
-        totalIntake: 60,
-        enrolledSeats: 45,
-        tuitionFeePerYear: "₹1,40,000",
-        eligibility: "B.E. / B.Tech in CSE/IT/ECE with 60% marks and valid GATE score.",
+        duration: "2 Years (4 Terms)",
+        totalIntake: 45,
+        enrolledSeats: 38,
+        tuitionFeePerYear: "₹1,50,000",
+        eligibility: "B.E. / B.Tech in CSE / IT / ECE with minimum 60%. Valid GATE score holders receive monthly stipend of ₹12,400.",
         intakeBreakdown: {
-          meritQuota: 36,
-          entranceExamQuota: 18,
-          sportsNriQuota: 6
+          meritQuota: 25,
+          entranceExamQuota: 15,
+          sportsNriQuota: 5
         },
-        highlights: ["Monthly stipend of ₹12,400 for GATE qualified scholars", "Direct entry into sponsored Ph.D fellowship programs"]
+        highlights: ["Fully funded Ph.D track progression", "Industry thesis with Adani AI Labs & Tech Titans"]
       },
       {
-        id: "mtech-vlsi",
-        level: "Postgraduate",
-        degree: "M.Tech",
-        specialization: "VLSI Design & Embedded Systems",
-        departmentId: "ece",
-        duration: "2 Years (4 Semesters)",
-        totalIntake: 30,
-        enrolledSeats: 26,
-        tuitionFeePerYear: "₹1,40,000",
-        eligibility: "B.E. / B.Tech in ECE/EEE/Instrumentation with minimum 60% aggregate.",
-        intakeBreakdown: {
-          meritQuota: 18,
-          entranceExamQuota: 9,
-          sportsNriQuota: 3
-        },
-        highlights: ["Cadence, Synopsys & Mentor Graphics EDA Suites", "100% internship-to-placement conversion in semiconductor MNCs"]
-      },
-      {
-        id: "mba-tech",
+        id: "mba-infra",
         level: "Postgraduate",
         degree: "MBA",
-        specialization: "Technology Management & Business Analytics",
+        specialization: "Infrastructure Management & Business Analytics",
         departmentId: "mgmt",
-        duration: "2 Years (4 Semesters)",
+        duration: "2 Years (4 Terms)",
         totalIntake: 120,
-        enrolledSeats: 110,
-        tuitionFeePerYear: "₹2,20,000",
-        eligibility: "Recognized Bachelor's degree (any discipline) with min 50%. CAT / XAT / CMAT / MAT qualified.",
+        enrolledSeats: 112,
+        tuitionFeePerYear: "₹2,40,000",
+        eligibility: "Recognized Bachelor's Degree with minimum 50% marks. CAT / XAT / CMAT / MAT / GMAT scores accepted.",
         intakeBreakdown: {
           meritQuota: 60,
           entranceExamQuota: 45,
           sportsNriQuota: 15
         },
-        highlights: ["Dual-specialization in Fintech, Product Management, or Analytics", "International immersion exchange option in Germany & Singapore"]
+        highlights: ["India's premier MBA specialized in Infrastructure & Logistics", "Executive guest lectures from Fortune 500 leadership", "Highest CTC: ₹26.5 LPA"]
       }
     ]
   },
 
+  // =================================================================
+  // FACULTIES DIRECTORY
+  // =================================================================
   faculties: [
     {
       id: "fac-1",
       name: "Dr. Arvind S. Raman",
-      designation: "Dean of Academic Affairs & Professor",
+      designation: "Dean of Technology & Professor",
       departmentId: "cse",
-      departmentName: "Computer Science & Engineering",
+      departmentName: "Computer Science & Engineering (AI & ML)",
       qualification: "Ph.D. in Computer Science (IISc Bangalore), M.Tech (IIT Madras)",
       experience: "24 Years",
-      specialization: "Distributed Systems, Autonomous Computing & Cloud Security",
-      email: "a.raman@apex-institute.edu.in",
+      specialization: "Distributed Systems, Autonomous AI & Cloud Security",
+      email: "a.raman@adaniuni.ac.in",
       publications: 48,
       patents: 6,
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
-      bio: "Dr. Raman has published widely in IEEE and ACM transactions, has supervised 14 Ph.D. dissertations, and leads the Indo-German Cyber Defense initiative.",
-      courses: ["Advanced Distributed Computing", "Cloud Infrastructure Architecture", "Operating Systems Internals"]
+      bio: "Dr. Raman spearheads Adani University's Center of Excellence in Intelligent Systems and has supervised 14 Ph.D. dissertations.",
+      courses: ["High-Performance Computing", "Distributed Cloud Architecture", "Advanced OS Internals"]
     },
     {
       id: "fac-2",
       name: "Dr. Priyamvada Sen",
-      designation: "Head of Department & Professor",
-      departmentId: "ai_ds",
-      departmentName: "Artificial Intelligence & Data Science",
-      qualification: "Ph.D. in Deep Learning (Stanford University Post-doc, IIT Bombay)",
+      designation: "Head of AI Department & Research Chair",
+      departmentId: "cse",
+      departmentName: "Computer Science & Engineering (AI & ML)",
+      qualification: "Ph.D. in Deep Learning (Stanford Post-Doc, IIT Bombay)",
       experience: "18 Years",
       specialization: "Multimodal AI, Computer Vision, Generative Models",
-      email: "p.sen@apex-institute.edu.in",
+      email: "p.sen@adaniuni.ac.in",
       publications: 62,
       patents: 9,
       avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
-      bio: "Principal Investigator for the Center of Excellence in Machine Intelligence, recipient of the National Young Scientist Award and recipient of NVIDIA AI Research Grant.",
-      courses: ["Deep Learning & Neural Networks", "Advanced Computer Vision", "Ethics in Generative AI"]
+      bio: "Principal Investigator for the Adani GPU Supercomputing Grid, National Science Academy Fellow, and mentor for 8 international AI hackathon winning teams.",
+      courses: ["Deep Learning & Neural Networks", "Computer Vision Systems", "Generative AI Foundations"]
     },
     {
       id: "fac-3",
       name: "Prof. Rajeshwar Kulkarni",
-      designation: "Professor & Director of Innovation Center",
-      departmentId: "ece",
-      departmentName: "Electronics & Communication",
-      qualification: "Ph.D. in Microelectronics (Purdue University), B.Tech (IIT Roorkee)",
-      experience: "21 Years",
-      specialization: "VLSI Design, Low Power SoC Architecture, Quantum Devices",
-      email: "r.kulkarni@apex-institute.edu.in",
-      publications: 39,
-      patents: 12,
+      designation: "Dean of Infrastructure Engineering",
+      departmentId: "infra",
+      departmentName: "Civil & Infrastructure Engineering",
+      qualification: "Ph.D. in Mega-Infrastructure Systems (Purdue University), B.Tech (IIT Roorkee)",
+      experience: "22 Years",
+      specialization: "Smart Port Engineering, High-Speed Transit, BIM Geotechnics",
+      email: "r.kulkarni@adaniuni.ac.in",
+      publications: 42,
+      patents: 11,
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
-      bio: "Former Principal Architect at Texas Instruments, now heading the Semiconductor Incubation Lab that has helped incubate 7 deep-tech hardware startups.",
-      courses: ["VLSI System Design", "RF Circuit Design", "Semiconductor Device Physics"]
+      bio: "Consultant for international port corridor development and recipient of the National Infrastructure Educator Award.",
+      courses: ["Port & Harbor Engineering", "High-Speed Rail Geotechnics", "BIM Infrastructure Design"]
     },
     {
       id: "fac-4",
-      name: "Dr. Meenakshi Sundaram",
-      designation: "Associate Professor & Dean of Student Welfare",
-      departmentId: "mech",
-      departmentName: "Mechanical & Mechatronics",
-      qualification: "Ph.D. in Robotics (Tokyo Institute of Technology, Japan)",
-      experience: "15 Years",
-      specialization: "Bipedal Robotics, Autonomous Mobile Vehicles, Kinematics",
-      email: "m.sundaram@apex-institute.edu.in",
-      publications: 31,
-      patents: 4,
-      avatar: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=400&q=80",
-      bio: "Leads the University RoboSub and Formula Student teams. Faculty mentor for the winning team at the International Autonomous Robotics Challenge 2025.",
-      courses: ["Robotics Kinematics & Dynamics", "Mechatronics System Design", "Industrial Automation"]
+      name: "Dr. Shalini Deshmukh",
+      designation: "Director, Center for Green Energy & Sustainability",
+      departmentId: "energy",
+      departmentName: "Energy Science & Renewable Systems",
+      qualification: "Ph.D. in Renewable Energy & Electrochemistry (Cambridge University)",
+      experience: "16 Years",
+      specialization: "Green Hydrogen Fuel Cells, Grid-Scale Energy Storage",
+      email: "s.deshmukh@adaniuni.ac.in",
+      publications: 44,
+      patents: 7,
+      avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80",
+      bio: "Leads joint research between Adani Green Energy and international renewable consortiums with over ₹8.5 Crores in research grants.",
+      courses: ["Hydrogen Energy Technologies", "Smart Grid Dynamics", "Electrochemical Energy Storage"]
     },
     {
       id: "fac-5",
-      name: "Dr. Shalini Deshmukh",
-      designation: "Professor & Lead Biotech Researcher",
-      departmentId: "biotech",
-      departmentName: "Biotechnology & Bioinformatics",
-      qualification: "Ph.D. in Molecular Biology (Cambridge University, UK)",
-      experience: "16 Years",
-      specialization: "CRISPR Gene Editing, Bio-computational Modeling, Vaccine Design",
-      email: "s.deshmukh@apex-institute.edu.in",
-      publications: 44,
-      patents: 5,
-      avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80",
-      bio: "Chief consultant for leading bio-pharmaceutical research clusters, holding international grants from Welcome Trust and ICMR.",
-      courses: ["Molecular Genetic Engineering", "Bioinformatics Algorithms", "Immunotechnology"]
+      name: "Prof. Kenneth Douglas",
+      designation: "Dean, Faculty of Management Sciences",
+      departmentId: "mgmt",
+      departmentName: "Faculty of Management Sciences",
+      qualification: "Ph.D. (Wharton Business School), MBA (IIM Ahmedabad)",
+      experience: "26 Years",
+      specialization: "Infrastructure Project Financing, Supply Chain Logistics",
+      email: "k.douglas@adaniuni.ac.in",
+      publications: 35,
+      patents: 2,
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+      bio: "Former strategic advisor to World Bank infrastructure funds and author of leading cases in infrastructure monetization.",
+      courses: ["Project Finance & Public-Private Partnerships", "Global Supply Chain Logistics", "Strategic Management"]
     },
     {
       id: "fac-6",
-      name: "Prof. Kenneth Douglas",
-      designation: "Dean, School of Management",
-      departmentId: "mgmt",
-      departmentName: "School of Management & Business",
-      qualification: "Ph.D. (Wharton Business School), MBA (IIM Ahmedabad)",
-      experience: "26 Years",
-      specialization: "Corporate Strategy, Venture Capital, Fintech Ecosystems",
-      email: "k.douglas@apex-institute.edu.in",
-      publications: 35,
-      patents: 1,
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
-      bio: "Advisory board member for leading global venture capital firms, published author in Harvard Business Review and Sloan Management Review.",
-      courses: ["Strategic Technology Management", "Fintech Innovations", "Entrepreneurial Venture Scaling"]
-    },
-    {
-      id: "fac-7",
       name: "Dr. Ananya Mukherjee",
-      designation: "Assistant Professor",
-      departmentId: "cse",
-      departmentName: "Computer Science & Engineering",
-      qualification: "Ph.D. in Cyber Security & Cryptography (Carnegie Mellon)",
-      experience: "9 Years",
-      specialization: "Zero-Knowledge Proofs, Post-Quantum Cryptography",
-      email: "a.mukherjee@apex-institute.edu.in",
-      publications: 22,
-      patents: 3,
+      designation: "Associate Professor, ICT",
+      departmentId: "ict",
+      departmentName: "Information & Communication Technology",
+      qualification: "Ph.D. in Cyber-Physical Systems (Carnegie Mellon)",
+      experience: "11 Years",
+      specialization: "5G/6G Networks, Edge Computing & IoT Security",
+      email: "a.mukherjee@adaniuni.ac.in",
+      publications: 29,
+      patents: 4,
       avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
-      bio: "Specialist in next-generation cryptographic primitives, coach for the University's Collegiate Cyber Defense competition team.",
-      courses: ["Cryptography & Network Security", "Blockchain Architectures", "Secure Coding Practices"]
-    },
-    {
-      id: "fac-8",
-      name: "Prof. Vikramaditya Rathore",
-      designation: "Associate Professor & Research Chair",
-      departmentId: "ai_ds",
-      departmentName: "Artificial Intelligence & Data Science",
-      qualification: "Ph.D. (IIT Delhi), MS (Technical University of Munich)",
-      experience: "12 Years",
-      specialization: "Natural Language Processing, Large Language Model Optimization",
-      email: "v.rathore@apex-institute.edu.in",
-      publications: 37,
-      patents: 2,
-      avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80",
-      bio: "Leads open-source initiatives in regional language tokenization and lightweight edge AI reasoning models.",
-      courses: ["Natural Language Processing", "Information Retrieval", "Machine Learning Systems"]
+      bio: "Specializes in secure telemetry for mission-critical infrastructure like power grids and air traffic controls.",
+      courses: ["5G Wireless Architectures", "IoT Security & Edge Networks", "Cyber Resilience"]
     }
   ],
 
+  // =================================================================
+  // CAMPUS INSIGHTS & INFRASTRUCTURE
+  // =================================================================
   campusInsights: [
     {
       id: "library",
       category: "academic",
-      title: "Rabindranath Tagore Central Digital Library",
-      badge: "6-Floor Mega Complex",
+      title: "Adani Knowledge Center & Central Digital Library",
+      badge: "5-Floor Ultra-Modern Hub",
       image: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80",
-      description: "A state-of-the-art intellectual sanctuary stocking over 350,000 physical volumes, 50,000+ e-journals, dedicated thesis archives, and 24/7 silent study cubicles.",
+      description: "Equipped with over 280,000 physical volumes, 40,000+ IEEE/ScienceDirect e-journals, Bloomberg financial terminals, and 24/7 collaborative pods.",
       keySpecs: [
-        "1,200 Seating Capacity with ergonomic workstations",
-        "Full digital access to IEEE Xplore, ScienceDirect, ACM, Springer",
-        "RFID Automated Book Return and Borrowing Kiosks",
-        "Multimedia Studio & Audio-Visual Recording Pods",
-        "Dedicated quiet study zones & group collaboration rooms"
+        "1,000+ Ergonomic study suites with gigabit Wi-Fi",
+        "RFID automated self-checkout and book drop kiosks",
+        "12 Bloomberg Financial & Commodity Market terminals",
+        "Acoustic group discussion pods & VR innovation room"
       ],
       timings: "Open 24/7 during Exam Months, 07:00 AM - 11:30 PM Regular Days",
-      location: "Academic Quad, Block B"
+      location: "Academic Quad, Shantigram Boulevard"
     },
     {
-      id: "rd-labs",
+      id: "ai-supercomputing",
       category: "academic",
-      title: "Advanced Research Labs & Maker Spaces",
-      badge: "42 Specialized Labs",
+      title: "Adani AI & High-Performance Supercomputing Grid",
+      badge: "1.5 PFLOPS Compute Power",
       image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
-      description: "Cutting-edge testing facilities and prototyping workshops housing multi-axis CNC machines, 3D laser scanners, clean rooms, and an NVIDIA A100 GPU compute grid.",
+      description: "Houses NVIDIA A100 GPU clusters and petabyte storage grids enabling large language model fine-tuning, drone telemetry, and real-time smart city analysis.",
       keySpecs: [
-        "NVIDIA DGX Supercomputing Cluster with 1.2 PFLOPS throughput",
-        "Cleanroom ISO Class 6 for Microfabrication & Nanotech",
-        "Wind Tunnel & Aerodynamics Testing Facility",
-        "IoT & Industrial Embedded Prototyping Benches",
-        "Automotive dyno and battery testing cells"
+        "NVIDIA DGX GPU Supercomputer for deep learning",
+        "Cleanroom ISO-6 prototyping facility",
+        "Real-time Smart City telemetry visualization wall",
+        "Drone prototyping wind tunnel and avionics testing bench"
       ],
-      timings: "08:00 AM - 10:00 PM (24-Hour Access for Approved Projects)",
-      location: "Science & Innovation Tower, Level -1 & 3"
+      timings: "08:00 AM - 10:00 PM (24/7 for Approved Capstone Teams)",
+      location: "Technology Tower, Level 2"
     },
     {
       id: "hostels",
       category: "residential",
-      title: "Smart Residential Hostels & Dining Commons",
-      badge: "Separate Boys & Girls Halls",
+      title: "Shantigram Eco-Residences & Dining Commons",
+      badge: "Air-Conditioned Suites",
       image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80",
-      description: "Safe, scenic, fully-furnished on-campus housing with single, twin, and triple air-conditioned suites. High-speed Wi-Fi, biometric access, and multi-cuisine hygienic dining.",
+      description: "Scenic residential blocks set amid lush green landscapes of Shantigram. High-speed fiber internet, multi-cuisine dining commons, biometric access, and laundromats.",
       keySpecs: [
-        "Accommodation capacity for 4,200 residential students",
-        "Centralized solar water heating & 100% green power backup",
-        "4 Multi-cuisine Dining Halls (North, South, Continental, Healthy Diet)",
-        "In-house laundromats, 24/7 security with CCTV surveillance",
-        "Recreation lounges with pool tables, TV pods & cafeteria"
+        "3,500+ Resident capacity across twin and single AC rooms",
+        "100% Solar-powered water heating and eco-waste recycling",
+        "Multi-cuisine pure vegetarian & global culinary dining counters",
+        "24/7 Security surveillance with electronic access card gates"
       ],
-      timings: "24/7 Security & Warden Desk | Gate Curfew: 10:30 PM",
-      location: "East Campus Green Park"
+      timings: "24/7 Student Concierge & Health Desk",
+      location: "Shantigram Township Green Sector"
     },
     {
       id: "auditorium",
       category: "cultural",
-      title: "Dr. APJ Abdul Kalam Grand Auditorium",
-      badge: "2,500 Capacity Arena",
+      title: "Gautam Adani Convention Center & Amphitheater",
+      badge: "2,200 Capacity Mega Hall",
       image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80",
-      description: "Acoustically engineered world-class convention center hosting international symposiums, annual cultural extravaganzas, hackathons, and corporate leadership talks.",
+      description: "State-of-the-art auditorium featuring motorized acoustic panels, 4K digital cinema laser projection, and multi-channel spatial sound for international symposia.",
       keySpecs: [
-        "Meyer Sound spatial audio and motorized stage lighting grid",
-        "Dual 4K Laser Projection video walls for keynote streaming",
-        "Simultaneous interpretation booths for multilingual conferences",
-        "Green rooms and backstage rehearsal suites",
-        "Connected 600-person banquet and exhibition gallery"
+        "2,200 Tiered motorized executive seating",
+        "Simultaneous interpretation booths for international delegates",
+        "Adjacent 500-guest VIP networking banqueting lounge",
+        "Connected outdoor Greco-Roman amphitheater for cultural fests"
       ],
-      timings: "Event Specific Bookings",
-      location: "Central Administration Square"
+      timings: "Event-based access",
+      location: "Central Campus Plaza"
     },
     {
       id: "incubator",
       category: "innovation",
-      title: "Apex Horizon Startup Incubation Center",
-      badge: "Supported by Startup India & DST",
+      title: "Adani Innovation Hub & Venture Studio",
+      badge: "₹20 Cr Seed Fund Pool",
       image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
-      description: "Catalyst for campus entrepreneurs providing seed grants up to ₹25 Lakhs, legal IP advisory, mentorship from unicorn founders, and co-working desks.",
+      description: "Incubating disruptive student ideas in Cleantech, Agri-tech, Logistics, and Artificial Intelligence with direct venture capital syndicates and IP patent backing.",
       keySpecs: [
-        "Over 45 startups incubated with total valuation over ₹180 Crores",
-        "Patent filing facilitation cell with 100% university grant subsidy",
-        "Angel investor demo days every semester",
-        "Hardware prototyping lab and software testbeds"
+        "Over 40 student-led startups funded and incubated",
+        "Direct mentorship from senior Adani Group executives",
+        "Free legal and patent filing facilitation office",
+        "Co-working lounges with 3D printers and laser cutters"
       ],
-      timings: "24/7 Open for Incubated Teams",
-      location: "Venture Pavilion, 4th Floor"
-    },
-    {
-      id: "health",
-      category: "wellness",
-      title: "Apollo-Partnered Campus Health & Wellness Hospital",
-      badge: "24/7 Medical Care",
-      image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80",
-      description: "Full-service on-campus healthcare facility staffed with full-time medical doctors, qualified nurses, basic emergency trauma care, and mental wellness counseling.",
-      keySpecs: [
-        "15 Inpatient observation beds and dedicated isolation units",
-        "Two fully equipped 24/7 ACLS Emergency Ambulances",
-        "Daily visiting specialists (Dentist, Ophthalmologist, Psychiatrist)",
-        "Discounted pharmacy and blood testing diagnostic unit",
-        "Free confidential student counseling and stress-relief guidance"
-      ],
-      timings: "24 Hours / 7 Days Emergency Services",
-      location: "West Gate Medical Enclave"
+      timings: "24/7 Access for Incubated Founders",
+      location: "Venture Pavilion, 3rd Floor"
     }
   ],
 
+  // =================================================================
+  // SPORTS FACILITY & ATHLETICS
+  // =================================================================
   sports: {
-    overview: "At Apex Institute, sports and athletics are vital to student life and holistic wellness. Our 18-acre sports arena caters to national athletes and recreational enthusiasts alike.",
-    director: "Col. (Retd.) Sanjeev Shekhawat, Olympian & Chief Director of Athletics",
+    overview: "Adani University boasts world-class sporting facilities nestled within the sprawling Shantigram estate. Our arenas inspire physical fitness, competitive teamwork, and athletic excellence.",
+    director: "Col. (Retd.) Sanjeev Shekhawat, Olympian & Sports Director",
     timings: "05:30 AM - 09:30 AM & 04:30 PM - 09:30 PM Daily",
     achievements: [
-      "Inter-University State Championship Gold in Football (2024, 2025)",
-      "National Collegiate Basketball Runners-Up (South Zone)",
-      "3 Students represented India in World University Games (Badminton & Archery)",
-      "Annual Inter-College Sports Fest 'Olympus' attracts 3,500+ participants"
+      "All-India Inter-University Football Champions (Western Zone 2025)",
+      "National Collegiate Cricket League Runners-Up",
+      "State Table Tennis & Badminton Gold Medals",
+      "Annual National Sports Carnival 'Adani Spardha' with 3,000+ athletes"
     ],
     facilities: [
       {
-        id: "football-turf",
-        name: "FIFA-Standard Floodlit Football Stadium",
+        id: "cricket-ground",
+        name: "Shantigram International Cricket Arena & Nets",
         type: "Outdoor",
-        specs: "105m x 68m all-weather FIFA Pro artificial turf with 3,000 spectator gallery, digital scoreboard, and LED match floodlights.",
+        specs: "BCCI standard natural turf match pitches, lush 75-meter boundary, 2,500-seat spectator pavilion, and 6 practice net bays with automated bowling machines.",
+        image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80",
+        activities: ["T20 Inter-University Cups", "Weekend League", "Automated Batting Sessions"],
+        equipmentAvailable: "Electronic bowling machines, safety gear, match balls"
+      },
+      {
+        id: "football-turf",
+        name: "FIFA-Standard Floodlit Football Turf",
+        type: "Outdoor",
+        specs: "105m x 68m all-weather synthetic turf equipped with stadium-grade high-mast LED lighting and digital scoreboard.",
         image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
-        activities: ["Football Leagues", "Inter-Department Cup", "Intramural Training", "Rugby Sevens"],
-        equipmentAvailable: "Match balls, training cones, agility ladders, goalie training kits"
+        activities: ["Intramural Soccer", "Inter-Collegiate Tournament", "Rugby & Athletics"],
+        equipmentAvailable: "Training cones, agility ladders, match balls, keeper kits"
       },
       {
         id: "olympic-pool",
-        name: "Olympic-Sized 50m Swimming Complex",
+        name: "Olympic-Length 50m Aquatics Complex",
         type: "Aquatics",
-        specs: "10-lane temperature-regulated 50m x 25m swimming pool, 5m diving platform, computerized ozone filtration system, and certified lifeguards on duty.",
+        specs: "10-lane temperature-controlled 50m competition pool with modern ozone purification, 5m diving tower, and certified FINA lifeguards.",
         image: "https://images.unsplash.com/photo-1519315901367-f34ff9154487?auto=format&fit=crop&w=800&q=80",
-        activities: ["Freestyle, Butterfly, Breaststroke Training", "Water Polo", "Swimming Competitions", "Beginner Coaching"],
-        equipmentAvailable: "Kickboards, pull buoys, swim fins, timing sensors, rescue tubes"
-      },
-      {
-        id: "cricket-ground",
-        name: "Sir Vivian Richards Cricket Arena & Nets",
-        type: "Outdoor",
-        specs: "BCCI-regulation natural grass outfield, 3 natural turf match pitches, and 6 practice net lanes equipped with automated bowling machines.",
-        image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80",
-        activities: ["T20 Tournaments", "Inter-Collegiate Red & White Ball matches", "Net practice"],
-        equipmentAvailable: "Automated bowling machines, sight screens, safety helmets, protective padding"
+        activities: ["Competitive Swimming", "Water Polo", "Beginner Training"],
+        equipmentAvailable: "Kickboards, pull buoys, swim fins, timing sensors"
       },
       {
         id: "badminton-complex",
         name: "Indoor Wooden Badminton & Squash Courts",
         type: "Indoor",
-        specs: "4 BWF-standard Yonex synthetic rubberised wooden courts, 2 international glass-back squash courts, air-conditioned stadium with spectator viewing balcony.",
+        specs: "4 BWF-certified wooden synthetic sprung courts, 2 glass-backed squash courts, climate-controlled arena with viewing gallery.",
         image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80",
-        activities: ["Singles & Doubles Badminton", "Squash Ladder", "Weekend Tournaments"],
-        equipmentAvailable: "Rackets, nylon & feather shuttlecocks, squash balls, stringing service"
+        activities: ["Singles & Doubles Badminton", "Squash Ladder Matches"],
+        equipmentAvailable: "Yonex racquets, feather & nylon shuttlecocks, court stringer"
       },
       {
         id: "gym-fitness",
-        name: "High-Performance Gymnasium & Strength Lab",
-        type: "Indoor Fitness",
-        specs: "8,000 sq.ft modern fitness center equipped with Technogym and Hammer Strength equipment, powerlifting platforms, cardio theater, and certified personal trainers.",
+        name: "Adani High-Performance Fitness & Wellness Center",
+        type: "Fitness",
+        specs: "8,500 sq.ft state-of-the-art strength and cardio center outfitted with Technogym biomechanical equipment, CrossFit rigs, and certified physical trainers.",
         image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80",
-        activities: ["Strength & Conditioning", "Crossfit", "HIIT Training", "Body Composition Analysis"],
-        equipmentAvailable: "Olympic barbells, bumper plates, cable machines, rowing ergometers, treadmills"
+        activities: ["Strength Training", "Functional CrossFit", "Yoga & Mindfulness"],
+        equipmentAvailable: "Olympic barbells, bumper plates, cardio rowers, dumbbells"
       },
       {
         id: "court-games",
-        name: "FIBA Basketball & Tennis Courts",
+        name: "Decoturf Tennis & FIBA Basketball Complex",
         type: "Outdoor Multi-Court",
-        specs: "3 Synthetic acrylic cushioned basketball courts with spring-loaded backboards, plus 2 synthetic Decoturf tennis courts under high-mast LED lights.",
+        specs: "3 Cushioned acrylic basketball courts with spring-loaded hoops, alongside 2 professional Decoturf tennis courts under night floodlights.",
         image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80",
-        activities: ["3x3 Streetball", "Inter-Collegiate Tennis", "Basketball League", "Night Tournaments"],
-        equipmentAvailable: "Basketballs, tennis balls, ball hopper, court squeegees"
+        activities: ["3-on-3 Streetball", "Tennis Tournaments", "Night League Matches"],
+        equipmentAvailable: "Wilson basketballs, tennis balls, ball machines"
       }
     ]
   },
 
+  // =================================================================
+  // PLACEMENTS & CAREER HUB
+  // =================================================================
   placements: {
-    highestPackage: "₹54.20 LPA",
-    averagePackage: "₹12.60 LPA",
-    medianPackage: "₹10.50 LPA",
-    totalOffers: "1,420+",
-    placementPercentage: "98.4%",
+    highestPackage: "₹52.50 LPA",
+    averagePackage: "₹11.80 LPA",
+    medianPackage: "₹10.20 LPA",
+    totalOffers: "1,280+",
+    placementPercentage: "98.7%",
     topRecruiters: [
-      { name: "Google", role: "Software Engineer", package: "₹48.0 LPA" },
-      { name: "Microsoft", role: "Cloud Solution Architect", package: "₹54.2 LPA" },
-      { name: "Amazon", role: "SDE-1 & ML Engineer", package: "₹45.0 LPA" },
-      { name: "NVIDIA", role: "AI & System Architect", package: "₹42.5 LPA" },
-      { name: "Qualcomm", role: "Hardware VLSI Engineer", package: "₹36.0 LPA" },
-      { name: "Bosch", role: "Automotive Embedded Systems", package: "₹18.0 LPA" },
-      { name: "Deloitte", role: "Technology Consultant", package: "₹16.5 LPA" },
-      { name: "Goldman Sachs", role: "Quantitative Analyst", package: "₹34.0 LPA" }
+      { name: "Google", role: "Software Engineer (Cloud)", package: "₹48.0 LPA" },
+      { name: "Microsoft", role: "AI & Distributed Systems", package: "₹52.5 LPA" },
+      { name: "Adani Enterprises", role: "Management Trainee & Tech Lead", package: "₹24.0 LPA" },
+      { name: "Amazon", role: "SDE-1 & Logistics Systems", package: "₹44.0 LPA" },
+      { name: "Larsen & Toubro", role: "Senior Infrastructure Engineer", package: "₹16.5 LPA" },
+      { name: "NVIDIA", role: "AI Hardware & Deep Learning", package: "₹42.0 LPA" },
+      { name: "Deloitte", role: "Technology & Risk Consultant", package: "₹15.8 LPA" },
+      { name: "Goldman Sachs", role: "Quantitative Financial Analyst", package: "₹34.0 LPA" }
     ]
   },
 
+  // =================================================================
+  // NOTICES & CIRCULARS
+  // =================================================================
   notices: [
     {
       id: "n-1",
-      title: "Undergraduate & Postgraduate Admission Notification 2026-27",
-      date: "May 12, 2026",
+      title: "Adani University Admissions 2026-27 Announced for B.Tech & MBA",
+      date: "May 15, 2026",
       category: "Admissions",
       important: true,
-      description: "Applications are invited for B.Tech, M.Tech, and MBA programs for the academic session 2026-27. Last date for submission of online application is May 30, 2026."
+      description: "Applications are invited for Computer Science (AI & ML), Infrastructure Engineering, Energy Systems, and MBA. Merit scholarships up to 100% tuition waiver available."
     },
     {
       id: "n-2",
-      title: "Annual Sports Olympiad 'Olympus 2026' Schedule Announced",
+      title: "Dean's Honor Roll & Top Rankers Award Ceremony for Term 4 & 5",
       date: "May 10, 2026",
-      category: "Sports",
-      important: false,
-      description: "Inter-department matches begin from next Monday. All department captains must submit team rosters to the Sports Directorate by Friday."
+      category: "Academics",
+      important: true,
+      description: "Chancellor Gold Medals and Dean's citations will be presented to the term top rankers at the Gautam Adani Convention Center next Friday."
     },
     {
       id: "n-3",
-      title: "Faculty Research Seed Grant Sanctioned (Round II)",
-      date: "May 05, 2026",
-      category: "Research",
-      important: true,
-      description: "14 research proposals in the domains of Edge Computing, Green Hydrogen, and Precision Medicine have been approved with total funding of ₹1.8 Crores."
+      title: "National Inter-Collegiate Sports Fest 'Adani Spardha 2026' Schedule",
+      date: "May 06, 2026",
+      category: "Sports",
+      important: false,
+      description: "Cricket, football, badminton, and swimming fixtures released. Registration open for all university departments."
     },
     {
       id: "n-4",
-      title: "Semester End Examination Timetable Released for Even Semesters",
-      date: "April 28, 2026",
-      category: "Academics",
+      title: "Seed Research Grant Allocations for Sustainable Infrastructure",
+      date: "April 29, 2026",
+      category: "Research",
       important: false,
-      description: "Students can download the detailed schedule from their Student Portal or the Exam Cell notice board."
+      description: "Adani Innovation Studio awards ₹3.2 Crores in seed grants to 12 student-faculty research teams."
     }
   ]
 };
 
-// Export for window access in browser
 if (typeof window !== 'undefined') {
   window.CollegeData = CollegeData;
 }
